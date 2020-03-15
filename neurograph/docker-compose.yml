@@ -1,0 +1,139 @@
+version: "2.1"
+services:
+    global_rmq:
+        container_name: "global_rmq"
+        build:
+            context: "./"
+            dockerfile: "./utils/dockerfiles/rmq.dockerfile"
+        ports:
+            - "9001:15672"
+            - "9002:5672"
+        networks:
+            - neurograph-network
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://global_rmq:15672"]
+            interval: 1s
+            timeout: 1s
+            retries: 30
+        mem_limit: 500m
+        logging:
+            options:
+                max-size: 10m
+
+    neurograph_local_rmq:
+        container_name: "neurograph_rmq"
+        build:
+            context: "./"
+            dockerfile: "./utils/dockerfiles/rmq.dockerfile"
+        ports:
+            - "9003:15672"
+            - "9004:5672"
+        networks:
+            - neurograph-network
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://neurograph_rmq:15672"]
+            interval: 1s
+            timeout: 1s
+            retries: 30
+        mem_limit: 500m
+        logging:
+            options:
+                max-size: 10m
+
+    nn1:
+        container_name: "neurograph_nn1"
+        build:
+            context: "./"
+            dockerfile: "./dockerfiles/mnist_cnn.dockerfile"
+        networks:
+            - neurograph-network
+        depends_on:
+            neurograph_local_rmq:
+                condition: service_healthy
+        volumes:
+            - ./state/neurograph/:/app/state/
+        env_file:
+            - local.env
+        environment:
+            - FLOW_NAME=neurograph
+            - CONF_PATH=/app/configuration/
+            - SERVICE_NAME=nn1
+        mem_limit: 100m
+        logging:
+            options:
+                max-size: 10m
+
+    nn2:
+        container_name: "neurograph_nn2"
+        build:
+            context: "./"
+            dockerfile: "./dockerfiles/mnist_cnn.dockerfile"
+        networks:
+            - neurograph-network
+        depends_on:
+            neurograph_local_rmq:
+                condition: service_healthy
+        volumes:
+            - ./state/neurograph/:/app/state/
+        env_file:
+            - local.env
+        environment:
+            - FLOW_NAME=neurograph
+            - CONF_PATH=/app/configuration/
+            - SERVICE_NAME=nn2
+        mem_limit: 100m
+        logging:
+            options:
+                max-size: 10m
+
+    nn3:
+        container_name: "neurograph_nn3"
+        build:
+            context: "./"
+            dockerfile: "./dockerfiles/mnist_cnn.dockerfile"
+        networks:
+            - neurograph-network
+        depends_on:
+            neurograph_local_rmq:
+                condition: service_healthy
+        volumes:
+            - ./state/neurograph/:/app/state/
+        env_file:
+            - local.env
+        environment:
+            - FLOW_NAME=neurograph
+            - CONF_PATH=/app/configuration/
+            - SERVICE_NAME=nn3
+        mem_limit: 100m
+        logging:
+            options:
+                max-size: 10m
+
+    nn4:
+        container_name: "neurograph_nn4"
+        build:
+            context: "./"
+            dockerfile: "./dockerfiles/mnist_cnn.dockerfile"
+        networks:
+            - neurograph-network
+        depends_on:
+            neurograph_local_rmq:
+                condition: service_healthy
+        volumes:
+            - ./state/neurograph/:/app/state/
+        env_file:
+            - local.env
+        environment:
+            - FLOW_NAME=neurograph
+            - CONF_PATH=/app/configuration/
+            - SERVICE_NAME=nn4
+        mem_limit: 100m
+        logging:
+            options:
+                max-size: 10m
+
+
+networks:
+    neurograph-network:
+        driver: bridge
+        name: neurograph-network
