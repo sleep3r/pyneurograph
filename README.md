@@ -8,6 +8,8 @@ Neurograph modeling framework.
 <h3>To run an example:</h3>
 You need to be Docker and docker-compose installed on your system.
 
+<br>
+
 ```
 cd /neurograph
 docker-compose build
