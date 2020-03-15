@@ -1,6 +1,6 @@
-# neurograph
-Neurograph modeling framework
+# python-neurograph
+Neurograph modeling framework.
 
-If you want to embed images, this is how you do it:
-
-![Image of Yaktocat](https://github.com/sleep3r/neurograph/raw/master/images/NeuroGraph.jpg)
+<p align="center">
+  <img width="460" height="300" src="https://github.com/sleep3r/neurograph/raw/master/images/NeuroGraph.jpg">
+</p>
