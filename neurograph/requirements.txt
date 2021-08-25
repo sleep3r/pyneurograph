@@ -1,5 +1,5 @@
 pika==1.1.0
 readerwriterlock==1.0.4
 configparser==4.0.2
-tensorflow==2.4.0
+tensorflow==2.5.1
 keras==2.2.4
